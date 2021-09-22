@@ -1,0 +1,72 @@
+---
+title: "nkelley_PeerCommentary_vfrench3_02"
+author: "Victoria French"
+date: "9/22/2021"
+output: html_document
+---
+
+# **Part 1**
+
+V: Include the prompt in the script? It would better rationalize where you are getting your parameters from. 
+
+```{r probabilty >8 calls in a session}
+ppois(8, 15, lower = FALSE)
+```
+#[1] 0.9625535 -- 96% probability of having >8 calls in a session
+#x = 8, lambda = 12 (the average per time frame), and lower=FALSE means this calculates the upper tail aka probability of having 8 or more calls in the time frame
+
+V: I think its a typo, you mean lambda = 15?. I also think commentary/annotation explaining the decision to call ppois over any other poisson distribution related function would be useful. 
+
+# **Part 2**
+
+```{r no calls in a session}
+ppois(0, 15)
+```
+#[1] 3.059023e-07 -- probability of zero calls in a session
+
+# **Part 3**
+```{r exactly 3 calls in a session}
+dpois(3, 15)
+```
+#[1] 0.0001720701 is probability of exactly 3 calls in a session.
+#I first used ppois and just did ppois(3, 15)-ppois(2, 15) which got the correct answer, but then I realized what dpois was for haha....On that note, qpois is for calcuating a number of events occuring based on a specified cumulative probability
+
+V: maybe elaborate on the functionality of dpois/ difference between dpois and ppois? If you don't do it earlier in the script. I love that you put another solution into the script. I didn't know you could use ppois in that capacity but it makes sense. 
+
+# **Part 4**
+```{r Poisson mass function 0 ≤ x ≤ 30}
+x <- 0:30
+l = 15
+probset <- dpois(x = x, lambda = l)
+barplot(probset, names.arg = x, space = 0, xlab = "x", ylab = "Pr(X = x)", main = "Probability Mass Function")
+```
+
+V: I can follow this (meaning it is very neat code!) but its missing the type of annotation that would help someone remember the codes' function if they came back in a year or two. 
+
+# **Part 5**
+```{r simulate 104 results from distribution}
+rp <- rpois(104, 15)
+rp
+```
+#rpois simulates random numbers from the Poisson distribution
+#  [1] 11 19 13 13 12 23 11 14 12 18 19 12 15 17 14 20 14[18]  9 20  9 14  8 11 15 15 19 14 14 17 14 15 14 14 14[35] 15 20 11 18 10 11 18 11 16 10 13 14 16 12 23 16 21[52] 16 22 14 20 11 16 11 15 14 16 13 10 13 15 11 13 15[69] 12 17 19 12 16 12 21 15 10 21 18 17 15 20 20 19 14[86] 13 13 14 14 16 19 18 20 22 16 11 11 23 17 18 20 12[103] 11 18
+
+V: I would explain that the n (104) in this function is arguing the number of variates you want generated just because for all other poisson related functions the n is the number of trials. It can get confusing for someone not familiar with the functions. 
+
+V: If you wanted to use this exact output as the generated data for the next part you could create a seed using set.seed function and then recall the seed in the next chunk!
+
+# **Part 6**
+```{r plot results as histogram}
+Simulated_Results <- rpois(104, 15)
+hist(x = Simulated_Results, xlim = c(0,30), col = "darkseagreen1", border = "darkseagreen", ylab = "Frequency", xlab = "Number of Titi Calls")
+```
+#The shape of the histogram is similar to the shape of the probability mass function, but the PMF is symmetric and the histogram is skewed right. This is because the histogram is constructed from randomly generated numbers based on the probability mass function, so it's possible that random chance can lead to asymmetric results. If you increase the number of randomly generated results, the histogram starts to resemble the PMF more. 
+
+V: Weird markdown formatting note
+- I don't know if you explicitly want the script formatted this way but just in case you don't know...the hashes only need to go before commentary if the commentary is within a chunk that is going to be run, if there is a hash before commentary outside of the chunks it will make it the head of a section when you knit the final html. Also I learned the hard way, if you want something to be a header the hash and the text need to be separated by a space. 
+
+# Overarching Peer Comments: 
+
+1. Your annotations summarizing the function of the code is good but you could definitely add to it concerning your decision making process to call certain functions over others. 
+2. I would explain where the parameters for your arguments in each called function are coming from. It will help rationalize the code to yourself if you ever look back at it. 
+3. Overall the code is neat/organized and generating correct output (or at least the same as mine haha) so great job! 
