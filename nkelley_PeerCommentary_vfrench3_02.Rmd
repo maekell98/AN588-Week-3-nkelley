@@ -13,7 +13,7 @@ What is the probability that she will hear more than 8 calls during any given se
 ppois(8, 15, lower = FALSE)
 ```
 #[1] 0.9625535 -- 96% probability of having >8 calls in a session
-#x = 8, lambda = 12 (the average per time frame), and lower=FALSE means this calculates the upper tail aka probability of having 8 or more calls in the time frame
+#x = 8, lambda = 15 (the average per time frame), and lower=FALSE means this calculates the upper tail aka probability of having 8 or more calls in the time frame
 
 V: I think its a typo, you mean lambda = 15?. I also think commentary/annotation explaining the decision to call ppois over any other poisson distribution related function would be useful. 
 
