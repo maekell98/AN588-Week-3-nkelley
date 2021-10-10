@@ -1,0 +1,83 @@
+---
+title: "nkelley_FinalHomeworkCode_02"
+author: "Natalia Kelley"
+date: "9/27/2021"
+output: html_document
+---
+
+Every Saturday, at the same time, a primatologist goes and sits in the forest in the morning and listens for titi monkey calls, counting the number of calls they hear in a 2 hour window from 5am to 7am. Based on previous knowledge, she believes that the mean number calls she will hear in that time is exactly 15. Let X represent the appropriate Poisson random variable of the number of calls heard in each monitoring session.
+
+# **Part 1**
+What is the probability that she will hear more than 8 calls during any given session?
+```{r probabilty >8 calls in a session}
+ppois(8, 15, lower = FALSE)
+```
+Output: [1] 0.9625535 -- 96% probability of having >8 calls in a session
+x = 8 (ppois defaults to calculating the probability of x or fewer events), lambda = 15 (the average per time frame), and lower=FALSE means this calculates the upper tail as opposed to the lower (aka probability of having 8 or more calls in the time frame).
+
+# **Part 2**
+What is the probability that she will hear no calls in a session?
+```{r no calls in a session}
+ppois(0, 15)
+```
+Output: [1] 3.059023e-07 -- probability of zero calls in a session. Here, I could have also used dpois which calculates the probability of a specific number of events occurring. 
+
+# **Part 3**
+What is the probability that she will hear exactly 3 calls in a session?
+```{r exactly 3 calls in a session}
+dpois(3, 15)
+```
+Output: [1] 0.0001720701 is probability of exactly 3 calls in a session.
+
+I first used ppois and just did ppois(3, 15)-ppois(2, 15) which got the correct answer, but then I realized what dpois was for. On that note, qpois is for calculating the number of events expected to occur based on a specified cumulative probability.
+
+
+# **Part 4**
+Plot the relevant Poisson mass function over the values in range 0 ≤ x ≤ 30.
+```{r Poisson mass function 0 ≤ x ≤ 30}
+x <- 0:30 #specifies the probset should include results from values of x from 0 to 30. 
+
+l = 15 #the average number of events per session.
+
+probset <- dpois(x = x, lambda = l) #defines probset as values of dpois for x = 0:30 (as previously defined) and lambda = 15.
+
+barplot(probset, names.arg = x, space = 0, xlab = "Number of Titi Calls", ylab = "Probability", main = "Probability Mass Function for Number of Titi Calls per Session") #creates a barplot of the probset
+```
+
+
+# **Part 5**
+Simulate 104 results from this distribution (i.e., 2 years of Saturday monitoring sessions).
+```{r simulate 104 results from distribution}
+rp <- rpois(104, 15)
+rp
+```
+Note: rpois simulates random numbers from the Poisson distribution. rpois(n, l) where n is the number of random variables to generate and 15 is still lambda. If I wanted to use these exact random results for future steps, I could also use the set.seed function. 
+
+Output: 
+[1] 11 19 13 13 12 23 11 14 12 18 19 12 15 17 14 20 14
+[18] 9 20  9 14  8 11 15 15 19 14 14 17 14 15 14 14 14
+[35] 15 20 11 18 10 11 18 11 16 10 13 14 16 12 23 16 21
+[52] 16 22 14 20 11 16 11 15 14 16 13 10 13 15 11 13 15
+[69] 12 17 19 12 16 12 21 15 10 21 18 17 15 20 20 19 14
+[86] 13 13 14 14 16 19 18 20 22 16 11 11 23 17 18 20 12
+[103] 11 18
+
+
+# **Part 6**
+Plot the simulated results using hist() and use xlim() to set the horizontal limits to be from 0 to 30. How does your histogram compare to the shape of the probability mass function you plotted above?
+```{r plot results as histogram}
+Simulated_Results <- rpois(104, 15)
+hist(x = Simulated_Results, xlim = c(0,30), col = "darkseagreen1", border = "darkseagreen", ylab = "Frequency", xlab = "Number of Titi Calls")
+```
+
+The shape of the histogram is similar to the shape of the probability mass function, but the PMF is symmetric and the histogram is skewed right. This is because the histogram is constructed from randomly generated numbers based on the probability mass function, so it's possible that random chance can lead to asymmetric results. If you increase the number of randomly generated results, the histogram starts to resemble the PMF more. 
+
+Challenges:
+
+1. Initially, I was only using ppois and hadn't quite figured out what dpois, rpois, and qpois were for. However, I figured this out by the end of the homework. 
+
+2. I had trouble at first wrapping my mind around the idea that you can create an entire probability distribution basically just from lambda. 
+
+3. I mixed up the use of # for making comments within chunks vs. outside of chunks! Victoria made a comment, so now I will just make my comments outside of chunks in regular text. *# should still work for making comments in chunks!*
+
+*good work figuring out the different pois functions, and great annotating! -Mel*
